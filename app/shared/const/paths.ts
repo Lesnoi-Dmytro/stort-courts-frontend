@@ -4,6 +4,6 @@ export const Paths = {
   SIGN_UP: "/auth/sign-up",
   COURTS: "/courts",
   COURT: (id: string) => `/courts/${id}`,
-}
+};
 
 export const DEFAULT_PATH = Paths.COURTS;
