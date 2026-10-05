@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { type AxiosRequestConfig } from "axios";
 import { Paths } from "~/shared/const/paths";
 import { ApiPaths } from "./api-paths";
 
@@ -8,10 +8,14 @@ declare module "axios" {
   }
 }
 
+export type RequestOptions = Pick<AxiosRequestConfig, "signal">;
+
 const AUTH_ROUTS = [Paths.SIGN_IN, Paths.SIGN_UP];
 
+const protocol = import.meta.env.VITE_API_SECURE === "true" ? "https" : "http";
+
 export const http = axios.create({
-  baseURL: `${import.meta.env.VITE_API_URL}/api`,
+  baseURL: `${protocol}://${import.meta.env.VITE_API_ORIGIN}/api`,
   timeout: 5000,
   withCredentials: true,
 });

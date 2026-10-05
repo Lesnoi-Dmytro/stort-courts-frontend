@@ -1,12 +1,12 @@
-export type Theme = "light" | "dark" | "system";
+import { StorageKeys } from "~/shared/const/storageKeys";
 
-export const THEME_STORAGE_KEY = "theme";
+export type Theme = "light" | "dark" | "system";
 
 const DARK_QUERY = "(prefers-color-scheme: dark)";
 
 export function getStoredTheme(): Theme {
   try {
-    const stored = localStorage.getItem(THEME_STORAGE_KEY);
+    const stored = localStorage.getItem(StorageKeys.THEME);
     if (stored === "light" || stored === "dark") return stored;
   } catch {}
   return "system";
@@ -22,10 +22,9 @@ export function applyTheme(theme: Theme) {
 
 export function storeTheme(theme: Theme) {
   try {
-    if (theme === "system") localStorage.removeItem(THEME_STORAGE_KEY);
-    else localStorage.setItem(THEME_STORAGE_KEY, theme);
+    if (theme === "system") localStorage.removeItem(StorageKeys.THEME);
+    else localStorage.setItem(StorageKeys.THEME, theme);
   } catch {}
 }
 
-// Runs in <head> before first paint so the page never flashes the wrong theme.
-export const themeInitScript = `(function(){try{var t=localStorage.getItem("${THEME_STORAGE_KEY}");var d=t==="dark"||(t!=="light"&&matchMedia("${DARK_QUERY}").matches);document.documentElement.classList.add(d?"dark":"light")}catch(e){}})()`;
+export const themeInitScript = `(function(){try{var t=localStorage.getItem("${StorageKeys.THEME}");var d=t==="dark"||(t!=="light"&&matchMedia("${DARK_QUERY}").matches);document.documentElement.classList.add(d?"dark":"light")}catch(e){}})()`;

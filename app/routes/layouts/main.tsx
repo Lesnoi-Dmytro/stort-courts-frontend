@@ -6,7 +6,7 @@ import { Paths } from "~/shared/const/paths";
 
 export default function MainLayout() {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex h-dvh flex-col">
       <header className="border-b border-gray-200 dark:border-gray-800">
         <div className="container mx-auto flex h-16 items-center px-4">
           <Link
@@ -22,7 +22,7 @@ export default function MainLayout() {
           </div>
         </div>
       </header>
-      <main className="container mx-auto flex-1 p-4">
+      <main className="container mx-auto flex min-h-0 flex-1 flex-col overflow-y-auto p-4">
         <Outlet />
       </main>
     </div>

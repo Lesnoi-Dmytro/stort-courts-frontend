@@ -33,11 +33,13 @@ Route modules live under `app/routes/<area>/*.tsx`; the page's own feature logic
 ### HTTP layer
 
 All backend calls go through `app/services/http/`:
-- `config.ts` creates a shared `axios` instance (`http`) with `baseURL = ${VITE_API_URL}/api`, `withCredentials: true` (cookie-based sessions), and a response interceptor that redirects to `Paths.SIGN_IN` on a 401 — unless the request config sets `skipAuthRedirect: true` (an augmented `AxiosRequestConfig` field), which auth endpoints themselves use to avoid redirect loops.
+- `config.ts` creates a shared `axios` instance (`http`) with `baseURL = <http|https>://${VITE_API_ORIGIN}/api` (`https` when `VITE_API_SECURE=true`), `withCredentials: true` (cookie-based sessions), and a response interceptor that redirects to `Paths.SIGN_IN` on a 401 — unless the request config sets `skipAuthRedirect: true` (an augmented `AxiosRequestConfig` field), which auth endpoints themselves use to avoid redirect loops.
 - `api-paths.ts` (`ApiPaths`) centralizes backend endpoint strings, mirroring the `Paths` pattern for frontend routes.
 - Per-domain services (e.g. `auth/auth.service.ts`) wrap `http` calls and return typed DTOs/domain types from `app/shared/types`. Follow this pattern for new API domains: add paths to `ApiPaths`, create `services/http/<domain>/<domain>.service.ts`, export it from `services/http/index.ts`.
 
-`VITE_API_URL` is read from `.env` (currently `http://localhost:3000`) and must point at the backend API.
+Read methods accept an optional `RequestOptions` (`{ signal }`, from `config.ts`) as the last argument so callers can abort with an `AbortController`.
+
+`VITE_API_ORIGIN` (host and port, no scheme, e.g. `localhost:3000`) and `VITE_API_SECURE` (`true`/`false`) are read from `.env` and must point at the backend API.
 
 ### Forms
 

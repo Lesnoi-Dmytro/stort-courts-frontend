@@ -1,6 +1,7 @@
 import { DropdownMenu, IconButton } from "@radix-ui/themes";
 import { MonitorIcon, MoonIcon, SunIcon } from "lucide-react";
 import { useEffect, useState } from "react";
+import { StorageKeys } from "~/shared/const/storageKeys";
 import {
   applyTheme,
   getStoredTheme,
@@ -18,7 +19,31 @@ export function ThemeSwitch() {
   // Always "system" on first render so server and client markup match.
   const [theme, setTheme] = useState<Theme>("system");
 
-  useEffect(() => setTheme(getStoredTheme()), []);
+  // Re-apply on mount: the init script only adds a class, and React can reset
+  // <html> attributes (e.g. after a hydration recovery), so re-sync the DOM.
+  useEffect(() => {
+    const stored = getStoredTheme();
+    setTheme(stored);
+    applyTheme(stored);
+  }, []);
+
+  // Keep other tabs and bfcache restores in sync with the stored preference.
+  useEffect(() => {
+    const sync = () => {
+      const stored = getStoredTheme();
+      setTheme(stored);
+      applyTheme(stored);
+    };
+    const onStorage = (event: StorageEvent) => {
+      if (event.key === null || event.key === StorageKeys.THEME) sync();
+    };
+    window.addEventListener("storage", onStorage);
+    window.addEventListener("pageshow", sync);
+    return () => {
+      window.removeEventListener("storage", onStorage);
+      window.removeEventListener("pageshow", sync);
+    };
+  }, []);
 
   useEffect(() => {
     if (theme !== "system") return;
