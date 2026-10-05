@@ -16,10 +16,14 @@ import { toast } from "react-toastify";
 import { CourtsService } from "~/services/http";
 import { Paths } from "~/shared/const/paths";
 import { useAuth } from "~/shared/context/auth-context";
-import { formatSport, formatTime } from "~/shared/lib/format";
+import { utcTimeToLocal } from "~/shared/lib/date";
+import { formatSport } from "~/shared/lib/format";
 import { showApiError } from "~/shared/lib/show-api-error";
 import { UserRole, type Court } from "~/shared/types";
-import { CourtForm, courtToValues } from "../form/CourtForm";
+import { AdminDayBookings } from "./AdminDayBookings";
+import { BookingForm } from "./BookingForm";
+import { MyBookings } from "./MyBookings";
+import { CourtForm, courtToValues, courtValuesToDTO } from "../form/CourtForm";
 
 function CourtSummary({ court }: { court: Court }) {
   return (
@@ -27,7 +31,8 @@ function CourtSummary({ court }: { court: Court }) {
       <Flex align="center" gap="2" className="text-(--gray-11)">
         <ClockIcon size={16} />
         <Text size="2">
-          {formatTime(court.openingHour)} – {formatTime(court.closingHour)}
+          {utcTimeToLocal(court.openingHour)} –{" "}
+          {utcTimeToLocal(court.closingHour)}
         </Text>
       </Flex>
       <Text size="6" weight="bold">
@@ -50,6 +55,7 @@ export function CourtDetails() {
   const [isLoading, setIsLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
   const [isDeactivating, setIsDeactivating] = useState(false);
+  const [bookingsKey, setBookingsKey] = useState(0);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -126,7 +132,10 @@ export function CourtDetails() {
                 errorTitle="Failed to update court"
                 requireChanges
                 onSubmit={async (values) => {
-                  const updated = await CourtsService.update(court.id, values);
+                  const updated = await CourtsService.update(
+                    court.id,
+                    courtValuesToDTO(values),
+                  );
                   setCourt(updated);
                   toast.success("Court updated");
                   return courtToValues(updated);
@@ -144,7 +153,7 @@ export function CourtDetails() {
                   color="red"
                   variant="soft"
                   loading={isDeactivating}
-                  className="self-start"
+                  className="self-end"
                 >
                   Deactivate court
                 </Button>
@@ -168,6 +177,42 @@ export function CourtDetails() {
                 </Flex>
               </AlertDialog.Content>
             </AlertDialog.Root>
+          )}
+
+          {court.isActive && !isAdmin && (
+            <Card size="3">
+              <Flex direction="column" gap="4">
+                <Heading as="h2" size="4">
+                  Book this court
+                </Heading>
+                <BookingForm
+                  court={court}
+                  onBooked={() => setBookingsKey((k) => k + 1)}
+                />
+              </Flex>
+            </Card>
+          )}
+
+          {!isAdmin && (
+            <Card size="3">
+              <Flex direction="column" gap="4">
+                <Heading as="h2" size="4">
+                  My bookings
+                </Heading>
+                <MyBookings courtId={court.id} reloadKey={bookingsKey} />
+              </Flex>
+            </Card>
+          )}
+
+          {isAdmin && (
+            <Card size="3">
+              <Flex direction="column" gap="4">
+                <Heading as="h2" size="4">
+                  Bookings
+                </Heading>
+                <AdminDayBookings courtId={court.id} />
+              </Flex>
+            </Card>
           )}
         </>
       )}

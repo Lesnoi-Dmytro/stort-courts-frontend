@@ -5,16 +5,24 @@ import { Controller, useForm, type Control } from "react-hook-form";
 import { courtSchema, type CourtValues } from "~/schemas/court";
 import { DatePicker } from "~/shared/components/date-picker/DatePicker";
 import { FormField } from "~/shared/components/forms/FormField";
-import { formatSport, formatTime } from "~/shared/lib/format";
+import { localTimeToUtc, utcTimeToLocal } from "~/shared/lib/date";
+import { formatSport } from "~/shared/lib/format";
 import { showApiError } from "~/shared/lib/show-api-error";
-import { SportType, type Court } from "~/shared/types";
+import { SportType, type Court, type CreateCourtDTO } from "~/shared/types";
 
 export const courtToValues = (c: Court): CourtValues => ({
   name: c.name,
   sportType: c.sportType,
   hourlyPrice: c.hourlyPrice,
-  openingHour: formatTime(c.openingHour),
-  closingHour: formatTime(c.closingHour),
+  openingHour: utcTimeToLocal(c.openingHour),
+  closingHour: utcTimeToLocal(c.closingHour),
+});
+
+/** Form values hold local times; the backend stores opening hours in UTC. */
+export const courtValuesToDTO = (v: CourtValues): CreateCourtDTO => ({
+  ...v,
+  openingHour: localTimeToUtc(v.openingHour),
+  closingHour: localTimeToUtc(v.closingHour),
 });
 
 function TimeField({

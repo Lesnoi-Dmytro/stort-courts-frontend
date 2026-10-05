@@ -52,3 +52,7 @@ Radix `<Theme accentColor="green">` wraps the app in `root.tsx`. Light/dark mode
 ### Path aliasing
 
 `~/*` maps to `./app/*` (see `tsconfig.json`). Use `~/...` imports rather than deep relative paths.
+
+### Code style
+
+Use `async`/`await` instead of `.then()`/`.catch()` chains unless it is absolutely necessary. This applies especially to `useEffect`: effect callbacks can't be `async`, so define an `async` function (or `useCallback`) and call it from the effect, using an `AbortController` for cleanup.

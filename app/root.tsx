@@ -8,7 +8,7 @@ import {
   ScrollRestoration,
 } from "react-router";
 import type { Route } from "./+types/root";
-import { AuthProvider } from "~/shared/context/auth-context";
+import { AuthProvider } from "~/shared/context/auth-provider";
 import { themeInitScript } from "~/shared/lib/theme";
 import { ToastContainer } from "react-toastify";
 import "./app.css";

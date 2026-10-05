@@ -3,7 +3,8 @@ import { ClockIcon } from "lucide-react";
 import { Link } from "react-router";
 import { Paths } from "~/shared/const/paths";
 import type { Court } from "~/shared/types";
-import { formatSport, formatTime } from "~/shared/lib/format";
+import { utcTimeToLocal } from "~/shared/lib/date";
+import { formatSport } from "~/shared/lib/format";
 
 export function CourtCard({ court }: { court: Court }) {
   return (
@@ -23,7 +24,8 @@ export function CourtCard({ court }: { court: Court }) {
           <Flex align="center" gap="2" className="text-(--gray-11)">
             <ClockIcon size={16} />
             <Text size="2">
-              {formatTime(court.openingHour)} – {formatTime(court.closingHour)}
+              {utcTimeToLocal(court.openingHour)} –{" "}
+              {utcTimeToLocal(court.closingHour)}
             </Text>
           </Flex>
 

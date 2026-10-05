@@ -7,7 +7,7 @@ import { CourtsService } from "~/services/http";
 import { Paths } from "~/shared/const/paths";
 import { useAuth } from "~/shared/context/auth-context";
 import { SportType, UserRole } from "~/shared/types";
-import { CourtForm } from "../form/CourtForm";
+import { CourtForm, courtValuesToDTO } from "../form/CourtForm";
 
 const DEFAULT_VALUES: CourtValues = {
   name: "",
@@ -45,7 +45,7 @@ export function CreateCourt() {
           submitLabel="Create court"
           errorTitle="Failed to create court"
           onSubmit={async (values) => {
-            const court = await CourtsService.create(values);
+            const court = await CourtsService.create(courtValuesToDTO(values));
             toast.success("Court created");
             navigate(Paths.COURT(court.id));
           }}

@@ -1,7 +1,5 @@
 import {
-  createContext,
   useCallback,
-  useContext,
   useEffect,
   useMemo,
   useState,
@@ -10,15 +8,7 @@ import {
 import { AuthService } from "~/services/http";
 import { showApiError } from "~/shared/lib/show-api-error";
 import type { User } from "~/shared/types";
-
-type AuthContextValue = {
-  user: User | null;
-  isLoading: boolean;
-  refresh: () => Promise<void>;
-  logout: () => Promise<void>;
-};
-
-const AuthContext = createContext<AuthContextValue | null>(null);
+import { AuthContext } from "./auth-context";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
@@ -51,10 +41,4 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 
   return <AuthContext value={value}>{children}</AuthContext>;
-}
-
-export function useAuth() {
-  const context = useContext(AuthContext);
-  if (!context) throw new Error("useAuth must be used within AuthProvider");
-  return context;
 }
