@@ -1,10 +1,12 @@
 import type {
   CourtBooking,
   CourtBookingSlot,
-  CourtFilterQueryDTO,
   CreateCourtBookingDTO,
   DateRangeQueryDTO,
   DaySummary,
+  MyBooking,
+  MyBookingsQueryDTO,
+  PaginatedResponse,
   SummaryQueryDTO,
 } from "~/shared/types";
 import { ApiPaths } from "../api-paths";
@@ -24,12 +26,15 @@ export const CourtBookingsService = {
   },
 
   async findMine(
-    query?: CourtFilterQueryDTO,
+    query?: MyBookingsQueryDTO,
     options?: RequestOptions,
-  ): Promise<CourtBooking[]> {
-    const { data } = await http.get<CourtBooking[]>(
+  ): Promise<PaginatedResponse<MyBooking>> {
+    const { data } = await http.get<PaginatedResponse<MyBooking>>(
       ApiPaths.COURT_BOOKINGS_MY,
-      { params: query, ...options },
+      {
+        params: query,
+        ...options,
+      },
     );
     return data;
   },

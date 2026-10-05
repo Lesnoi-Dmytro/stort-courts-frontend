@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { format, isSameDay } from "date-fns";
 
 export const MINUTE = 60_000;
 export const HOUR = 60 * MINUTE;
@@ -36,3 +36,10 @@ export const localTimeToUtc = (time: string) => {
 
 /** Time of an instant (ms) in the user's local timezone. */
 export const formatLocalTime = (ms: number) => format(ms, "HH:mm");
+
+/** "Oct 5, 2026, 10:00 – 11:00", with the end date when it falls on another day. */
+export const formatBookingRange = (startDatetime: string, minutes: number) => {
+  const start = new Date(startDatetime);
+  const end = new Date(start.getTime() + minutes * MINUTE);
+  return `${format(start, "PP, HH:mm")} – ${format(end, isSameDay(start, end) ? "HH:mm" : "PP, HH:mm")}`;
+};

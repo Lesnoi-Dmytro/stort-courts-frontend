@@ -1,4 +1,5 @@
 import type { SportType } from "./court";
+import type { PaginatedQueryDTO } from "./pagination";
 
 export const ALLOWED_BOOKING_MINUTES = [60, 120] as const;
 
@@ -15,6 +16,16 @@ export type CourtBooking = {
 
 /** Public view of a booking: only the occupied slot, no user data. */
 export type CourtBookingSlot = Pick<CourtBooking, "startDatetime" | "minutes">;
+
+export type BookingCourt = {
+  id: string;
+  name: string;
+};
+
+export type MyBooking = CourtBookingSlot & {
+  id: string;
+  court: BookingCourt;
+};
 
 export type CreateCourtBookingDTO = {
   courtId: string;
@@ -34,6 +45,12 @@ export type CourtFilterQueryDTO = {
   /** Only include this court */
   courtId?: string;
 };
+
+export type MyBookingsQueryDTO = PaginatedQueryDTO &
+  CourtFilterQueryDTO & {
+    /** true: only bookings starting before today (UTC); false: today and later */
+    completed?: boolean;
+  };
 
 export type SummaryQueryDTO = CourtFilterQueryDTO & {
   /** First day, inclusive, UTC (YYYY-MM-DD) */

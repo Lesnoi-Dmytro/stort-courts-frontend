@@ -17,6 +17,7 @@ export default [
   layout("routes/layouts/main.tsx", [
     route(Paths.COURTS, "routes/courts/courts.tsx"),
     route(Paths.COURT_NEW, "routes/courts/court-new.tsx"),
+    route(Paths.BOOKINGS, "routes/bookings/bookings.tsx"),
     route(Paths.COURT_ROUTE, "routes/courts/court.tsx"),
   ]),
 ] satisfies RouteConfig;

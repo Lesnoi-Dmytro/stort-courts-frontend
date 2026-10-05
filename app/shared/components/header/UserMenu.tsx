@@ -8,6 +8,7 @@ import {
 import { Link, useNavigate } from "react-router";
 import { Paths } from "~/shared/const/paths";
 import { useAuth } from "~/shared/context/auth-context";
+import { UserRole } from "~/shared/types";
 
 export function UserMenu() {
   const { user, isLoading, logout } = useAuth();
@@ -53,12 +54,14 @@ export function UserMenu() {
           </Text>
         </Flex>
         <DropdownMenu.Separator />
-        <DropdownMenu.Item asChild>
-          <Link to={Paths.BOOKINGS}>
-            <CalendarCheckIcon size={16} />
-            Bookings
-          </Link>
-        </DropdownMenu.Item>
+        {user.role !== UserRole.ADMIN && (
+          <DropdownMenu.Item asChild>
+            <Link to={Paths.BOOKINGS}>
+              <CalendarCheckIcon size={16} />
+              My bookings
+            </Link>
+          </DropdownMenu.Item>
+        )}
         <DropdownMenu.Item color="red" onSelect={handleLogout}>
           <LogOutIcon size={16} />
           Log out
