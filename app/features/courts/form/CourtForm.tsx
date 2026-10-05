@@ -1,11 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Flex, Select, TextField } from "@radix-ui/themes";
-import { Controller, useForm } from "react-hook-form";
+import { format, isValid, parse } from "date-fns";
+import { Controller, useForm, type Control } from "react-hook-form";
 import { courtSchema, type CourtValues } from "~/schemas/court";
+import { DatePicker } from "~/shared/components/date-picker/DatePicker";
 import { FormField } from "~/shared/components/forms/FormField";
+import { formatSport, formatTime } from "~/shared/lib/format";
 import { showApiError } from "~/shared/lib/show-api-error";
 import { SportType, type Court } from "~/shared/types";
-import { formatSport, formatTime } from "~/shared/lib/format";
 
 export const courtToValues = (c: Court): CourtValues => ({
   name: c.name,
@@ -15,13 +17,42 @@ export const courtToValues = (c: Court): CourtValues => ({
   closingHour: formatTime(c.closingHour),
 });
 
+function TimeField({
+  id,
+  name,
+  control,
+}: {
+  id: string;
+  name: "openingHour" | "closingHour";
+  control: Control<CourtValues>;
+}) {
+  return (
+    <Controller
+      control={control}
+      name={name}
+      render={({ field }) => {
+        const parsed = parse(field.value.slice(0, 5), "HH:mm", new Date());
+        return (
+          <DatePicker
+            id={id}
+            mode="time"
+            hourOnly
+            value={isValid(parsed) ? parsed : null}
+            onChange={(date) =>
+              field.onChange(date ? format(date, "HH:mm") : "")
+            }
+          />
+        );
+      }}
+    />
+  );
+}
+
 type CourtFormProps = {
   defaultValues: CourtValues;
   submitLabel: string;
   errorTitle: string;
-  // Only allow submitting once something changed (edit mode).
   requireChanges?: boolean;
-  // Resolve with the saved values to make them the new baseline for the form.
   onSubmit: (values: CourtValues) => Promise<CourtValues | void>;
 };
 
@@ -101,10 +132,10 @@ export function CourtForm({
               htmlFor="openingHour"
               error={errors.openingHour?.message}
             >
-              <TextField.Root
+              <TimeField
                 id="openingHour"
-                type="time"
-                {...register("openingHour")}
+                control={control}
+                name="openingHour"
               />
             </FormField>
           </div>
@@ -114,10 +145,10 @@ export function CourtForm({
               htmlFor="closingHour"
               error={errors.closingHour?.message}
             >
-              <TextField.Root
+              <TimeField
                 id="closingHour"
-                type="time"
-                {...register("closingHour")}
+                control={control}
+                name="closingHour"
               />
             </FormField>
           </div>

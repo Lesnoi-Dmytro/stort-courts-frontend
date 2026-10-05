@@ -3,6 +3,7 @@
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/preflight.css" layer(base);
 @import "@radix-ui/themes/styles.css" layer(components);
+@import "react-day-picker/style.css" layer(components);
 @import "tailwindcss/utilities.css" layer(utilities);
 
 @custom-variant dark (&:where(.dark, .dark *));
@@ -67,4 +68,41 @@ body {
 
 .Toastify .Toastify__progress-bar {
   height: 3px;
+}
+
+/* Date picker: react-day-picker themed with Radix tokens (accent, light/dark). */
+.rdp-root {
+  --rdp-accent-color: var(--accent-9);
+  --rdp-accent-background-color: var(--accent-a3);
+  --rdp-day-height: 36px;
+  --rdp-day-width: 36px;
+  --rdp-day_button-height: 34px;
+  --rdp-day_button-width: 34px;
+  --rdp-day_button-border-radius: var(--radius-3);
+  --rdp-nav_button-height: 2rem;
+  --rdp-nav_button-width: 2rem;
+  --rdp-nav-height: 2rem;
+  --rdp-disabled-opacity: 0.35;
+  font-family: var(--font-sans);
+  font-size: var(--font-size-2);
+  color: var(--gray-12);
+}
+
+.rdp-root .rdp-selected .rdp-day_button {
+  background: var(--accent-9);
+  border-color: var(--accent-9);
+  color: var(--accent-contrast);
+}
+
+.rdp-root .rdp-day_button:hover:not(:disabled) {
+  background: var(--accent-a4);
+}
+
+.rdp-root .rdp-today:not(.rdp-selected) {
+  color: var(--accent-11);
+  font-weight: 700;
+}
+
+.rdp-root .rdp-disabled .rdp-day_button {
+  text-decoration: line-through;
 }
