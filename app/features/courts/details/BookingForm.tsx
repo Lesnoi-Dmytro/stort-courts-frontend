@@ -9,6 +9,7 @@ import {
   type CourtBookingValues,
 } from "~/schemas/court-booking";
 import { CourtBookingsService } from "~/services/http";
+import { useCourtBookingsLive } from "~/shared/hooks/useCourtBookingsLive";
 import type { DateRange } from "~/shared/components/date-picker/DateCalendar";
 import { DatePicker } from "~/shared/components/date-picker/DatePicker";
 import { FormField } from "~/shared/components/forms/FormField";
@@ -107,6 +108,18 @@ export function BookingForm({
 
     return () => controller.abort();
   }, [range, loadBookings]);
+
+  useCourtBookingsLive(court.id, (slot) =>
+    setBookings((prev) =>
+      !prev ||
+      prev.some(
+        (b) =>
+          b.startDatetime === slot.startDatetime && b.minutes === slot.minutes,
+      )
+        ? prev
+        : [...prev, slot],
+    ),
+  );
 
   const bookingsByDay = useMemo(
     () => groupBookingsByDay(bookings ?? []),

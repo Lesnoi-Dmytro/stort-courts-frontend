@@ -7,7 +7,6 @@ import { MINUTE } from "~/shared/lib/date";
 import { showApiError } from "~/shared/lib/show-api-error";
 import type { BookingSummary } from "~/shared/types";
 
-/** Bookings and income of one court for a day (defaults to today). */
 export function AdminDayBookings({ courtId }: { courtId: string }) {
   const [day, setDay] = useState<Date>(() => new Date());
   const [bookings, setBookings] = useState<BookingSummary[] | undefined>();
@@ -18,8 +17,6 @@ export function AdminDayBookings({ courtId }: { courtId: string }) {
     const load = async () => {
       setBookings(undefined);
       try {
-        // The API works in UTC days; fetch the ones covering the local day
-        // and keep only the bookings that start within it.
         const from = startOfDay(day);
         const to = endOfDay(day);
         const data = await CourtBookingsService.getDaySummary(
