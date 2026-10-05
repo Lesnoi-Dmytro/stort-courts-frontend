@@ -12,6 +12,11 @@ FROM node:24-alpine AS build-env
 COPY . /app/
 COPY --from=development-dependencies-env /app/node_modules /app/node_modules
 WORKDIR /app
+
+ARG VITE_API_ORIGIN=localhost:3000
+ARG VITE_API_SECURE=false
+ENV VITE_API_ORIGIN=$VITE_API_ORIGIN VITE_API_SECURE=$VITE_API_SECURE
+
 RUN npm run build
 
 FROM node:24-alpine
