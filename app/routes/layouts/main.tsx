@@ -1,5 +1,6 @@
 import { VolleyballIcon } from "lucide-react";
 import { Link, Outlet } from "react-router";
+import { UserMenu } from "~/features/auth/UserMenu";
 import { ThemeSwitch } from "~/shared/components/ThemeSwitch";
 import { Paths } from "~/shared/const/paths";
 
@@ -15,8 +16,9 @@ export default function MainLayout() {
             <VolleyballIcon className="text-(--accent-9)" size={24} />
             Courtly
           </Link>
-          <div className="ml-auto">
+          <div className="ml-auto flex items-center gap-3">
             <ThemeSwitch />
+            <UserMenu />
           </div>
         </div>
       </header>

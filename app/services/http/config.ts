@@ -1,5 +1,12 @@
 import axios from "axios";
 import { Paths } from "~/shared/const/paths";
+import { ApiPaths } from "./api-paths";
+
+declare module "axios" {
+  interface AxiosRequestConfig {
+    skipAuthRedirect?: boolean;
+  }
+}
 
 const AUTH_ROUTS = [Paths.SIGN_IN, Paths.SIGN_UP];
 
@@ -15,6 +22,7 @@ http.interceptors.response.use(
     if (
       axios.isAxiosError(error) &&
       error.response?.status === 401 &&
+      !error.config?.skipAuthRedirect &&
       typeof window !== "undefined" &&
       !AUTH_ROUTS.includes(window.location.pathname)
     ) {
