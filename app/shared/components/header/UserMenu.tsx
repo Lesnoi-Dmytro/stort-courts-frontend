@@ -1,6 +1,7 @@
 import { DropdownMenu, Flex, IconButton, Text } from "@radix-ui/themes";
 import {
   CalendarCheckIcon,
+  ChartNoAxesColumnIcon,
   LogInIcon,
   LogOutIcon,
   UserIcon,
@@ -59,6 +60,14 @@ export function UserMenu() {
             <Link to={Paths.BOOKINGS}>
               <CalendarCheckIcon size={16} />
               My bookings
+            </Link>
+          </DropdownMenu.Item>
+        )}
+        {user.role === UserRole.ADMIN && (
+          <DropdownMenu.Item asChild>
+            <Link to={Paths.SUMMARY}>
+              <ChartNoAxesColumnIcon size={16} />
+              Day summary
             </Link>
           </DropdownMenu.Item>
         )}

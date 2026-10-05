@@ -3,6 +3,7 @@ export const Paths = {
   SIGN_IN: "/auth/sign-in",
   SIGN_UP: "/auth/sign-up",
   BOOKINGS: "/bookings",
+  SUMMARY: "/summary",
   COURTS: "/courts",
   COURT_NEW: "/courts/new",
   COURT_ROUTE: "/courts/:id",

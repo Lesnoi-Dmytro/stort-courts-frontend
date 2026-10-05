@@ -70,7 +70,6 @@ body {
   height: 3px;
 }
 
-/* Date picker: react-day-picker themed with Radix tokens (accent, light/dark). */
 .rdp-root {
   --rdp-accent-color: var(--accent-9);
   --rdp-accent-background-color: var(--accent-a3);

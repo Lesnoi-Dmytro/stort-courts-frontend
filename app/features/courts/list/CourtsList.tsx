@@ -94,14 +94,12 @@ export function CourtsList() {
     );
   };
 
-  // Debounced input -> URL.
   useEffect(() => {
     if (debouncedSearch === name) return;
     updateParams({ [QueryKeys.NAME]: debouncedSearch }, { replace: true });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedSearch]);
 
-  // URL -> input (back/forward navigation).
   useEffect(() => {
     if (name !== debouncedSearch) setSearch(name);
     // eslint-disable-next-line react-hooks/exhaustive-deps

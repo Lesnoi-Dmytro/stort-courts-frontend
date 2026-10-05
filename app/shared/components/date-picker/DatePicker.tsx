@@ -10,7 +10,6 @@ type DatePickerProps = DateCalendarProps & {
   placeholder?: string;
 };
 
-/** Popover picker for a date, a date and time (`datetime`) or just a `time`. */
 export function DatePicker({
   id,
   placeholder,

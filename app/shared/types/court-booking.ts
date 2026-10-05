@@ -42,7 +42,6 @@ export type DateRangeQueryDTO = {
 };
 
 export type CourtFilterQueryDTO = {
-  /** Only include this court */
   courtId?: string;
 };
 

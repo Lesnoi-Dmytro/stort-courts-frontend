@@ -4,7 +4,6 @@ export const MINUTE = 60_000;
 export const HOUR = 60 * MINUTE;
 export const DAY = 24 * HOUR;
 
-/** Minutes since midnight of an "HH:mm" or "HH:mm:ss" time. */
 export const timeToMinutes = (time: string) => {
   const [h, m] = time.split(":").map(Number);
   return h * 60 + m;
@@ -34,7 +33,6 @@ export const localTimeToUtc = (time: string) => {
   return `${pad(date.getUTCHours())}:${pad(date.getUTCMinutes())}`;
 };
 
-/** Time of an instant (ms) in the user's local timezone. */
 export const formatLocalTime = (ms: number) => format(ms, "HH:mm");
 
 /** "Oct 5, 2026, 10:00 – 11:00", with the end date when it falls on another day. */

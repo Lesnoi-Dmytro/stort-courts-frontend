@@ -18,9 +18,7 @@ export type DateRange = { start: Date; end: Date };
 export type PickerMode = "date" | "datetime" | "time";
 
 export type DateCalendarProps = {
-  /** "datetime" adds a time select under the calendar, "time" shows only that. */
   mode?: PickerMode;
-  /** Time selection by whole hours only (no minutes). */
   hourOnly?: boolean;
   value: Date | null;
   withTime?: boolean;

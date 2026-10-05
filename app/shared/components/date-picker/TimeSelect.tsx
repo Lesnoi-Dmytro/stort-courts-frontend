@@ -9,11 +9,9 @@ type TimeSelectProps = {
   value: Date | null;
   onChange: (value: Date) => void;
   disabled?: boolean;
-  /** Hide the minutes; picking an hour sets the time to HH:00. */
   hourOnly?: boolean;
 };
 
-/** Hour and minute selects. With no value, a pick starts from today's date. */
 export function TimeSelect({
   value,
   onChange,
