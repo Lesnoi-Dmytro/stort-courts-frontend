@@ -10,6 +10,7 @@ import {
 import type { Route } from "./+types/root";
 import { AuthProvider } from "~/shared/context/auth-context";
 import { themeInitScript } from "~/shared/lib/theme";
+import { ToastContainer } from "react-toastify";
 import "./app.css";
 
 export const links: Route.LinksFunction = () => [
@@ -49,6 +50,7 @@ export default function App() {
     <Theme accentColor="green">
       <AuthProvider>
         <Outlet />
+        <ToastContainer theme="colored" position="top-right" />
       </AuthProvider>
     </Theme>
   );

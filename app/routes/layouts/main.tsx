@@ -1,7 +1,7 @@
 import { VolleyballIcon } from "lucide-react";
 import { Link, Outlet } from "react-router";
-import { UserMenu } from "~/features/auth/UserMenu";
-import { ThemeSwitch } from "~/shared/components/ThemeSwitch";
+import { ThemeSwitch } from "~/shared/components/header/ThemeSwitch";
+import { UserMenu } from "~/shared/components/header/UserMenu";
 import { Paths } from "~/shared/const/paths";
 
 export default function MainLayout() {

@@ -8,11 +8,13 @@ import {
   type ReactNode,
 } from "react";
 import { AuthService } from "~/services/http";
+import { showApiError } from "~/shared/lib/show-api-error";
 import type { User } from "~/shared/types";
 
 type AuthContextValue = {
   user: User | null;
   isLoading: boolean;
+  refresh: () => Promise<void>;
   logout: () => Promise<void>;
 };
 
@@ -22,11 +24,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    AuthService.me()
-      .then(setUser)
-      .finally(() => setIsLoading(false));
+  const refresh = useCallback(async () => {
+    try {
+      setUser(await AuthService.me());
+    } catch (error) {
+      setUser(null);
+      showApiError(error, { title: "Could not load your profile" });
+    }
   }, []);
+
+  useEffect(() => {
+    refresh().finally(() => setIsLoading(false));
+  }, [refresh]);
 
   const logout = useCallback(async () => {
     try {
@@ -37,8 +46,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const value = useMemo(
-    () => ({ user, isLoading, logout }),
-    [user, isLoading, logout],
+    () => ({ user, isLoading, refresh, logout }),
+    [user, isLoading, refresh, logout],
   );
 
   return <AuthContext value={value}>{children}</AuthContext>;

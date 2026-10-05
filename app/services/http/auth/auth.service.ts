@@ -1,3 +1,4 @@
+import axios from "axios";
 import type { SignInDTO, SignUpDTO, User } from "~/shared/types";
 import { ApiPaths } from "../api-paths";
 import { http } from "../config";
@@ -9,8 +10,11 @@ export const AuthService = {
         skipAuthRedirect: true,
       });
       return data;
-    } catch {
-      return null;
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response?.status === 401) {
+        return null;
+      }
+      throw error;
     }
   },
 
