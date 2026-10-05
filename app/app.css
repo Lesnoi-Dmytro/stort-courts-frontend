@@ -23,3 +23,48 @@ body {
     color-scheme: dark;
   }
 }
+
+/* Toasts: restyle react-toastify with Radix tokens so they follow the app's
+   accent color and light/dark mode. Kept outside the cascade layers on purpose,
+   react-toastify injects its own unlayered CSS. */
+.Toastify {
+  --toastify-font-family: var(--font-sans);
+  --toastify-color-light: var(--color-panel-solid);
+  --toastify-text-color-light: var(--gray-12);
+  --toastify-color-progress-light: var(--accent-9);
+  --toastify-color-success: var(--green-9);
+  --toastify-color-error: var(--red-9);
+  --toastify-color-warning: var(--amber-9);
+  --toastify-color-info: var(--blue-9);
+  --toastify-icon-color-success: var(--green-9);
+  --toastify-icon-color-error: var(--red-9);
+  --toastify-icon-color-warning: var(--amber-9);
+  --toastify-icon-color-info: var(--blue-9);
+  --toastify-color-progress-success: var(--green-9);
+  --toastify-color-progress-error: var(--red-9);
+  --toastify-color-progress-warning: var(--amber-9);
+  --toastify-color-progress-info: var(--blue-9);
+}
+
+.Toastify .Toastify__toast {
+  border: 1px solid var(--gray-a6);
+  border-radius: var(--radius-4);
+  box-shadow: var(--shadow-5);
+  font-size: var(--font-size-2);
+  line-height: var(--line-height-2);
+  padding: var(--space-3);
+  min-height: 0;
+}
+
+.Toastify .Toastify__close-button {
+  color: var(--gray-11);
+  opacity: 0.7;
+}
+
+.Toastify .Toastify__close-button:hover {
+  opacity: 1;
+}
+
+.Toastify .Toastify__progress-bar {
+  height: 3px;
+}

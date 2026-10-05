@@ -50,7 +50,7 @@ export default function App() {
     <Theme accentColor="green">
       <AuthProvider>
         <Outlet />
-        <ToastContainer theme="colored" position="top-right" />
+        <ToastContainer theme="light" position="bottom-right" />
       </AuthProvider>
     </Theme>
   );

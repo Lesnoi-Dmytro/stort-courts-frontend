@@ -75,7 +75,9 @@ export function CourtsList() {
   // Defaults are left out of the URL to keep it short; "page" resets whenever
   // a filter changes. Typing replaces the history entry instead of stacking.
   const updateParams = (
-    updates: Partial<Record<(typeof QueryKeys)[keyof typeof QueryKeys], string>>,
+    updates: Partial<
+      Record<(typeof QueryKeys)[keyof typeof QueryKeys], string>
+    >,
     { replace = false }: { replace?: boolean } = {},
   ) => {
     setSearchParams(

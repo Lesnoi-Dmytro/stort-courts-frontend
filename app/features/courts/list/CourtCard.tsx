@@ -3,11 +3,7 @@ import { ClockIcon } from "lucide-react";
 import { Link } from "react-router";
 import { Paths } from "~/shared/const/paths";
 import type { Court } from "~/shared/types";
-
-const formatTime = (time: string) => time.slice(0, 5);
-
-const formatSport = (sport: string) =>
-  sport.charAt(0) + sport.slice(1).toLowerCase();
+import { formatSport, formatTime } from "~/shared/lib/format";
 
 export function CourtCard({ court }: { court: Court }) {
   return (

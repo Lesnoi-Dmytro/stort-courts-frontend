@@ -4,6 +4,8 @@ export const Paths = {
   SIGN_UP: "/auth/sign-up",
   BOOKINGS: "/bookings",
   COURTS: "/courts",
+  COURT_NEW: "/courts/new",
+  COURT_ROUTE: "/courts/:id",
   COURT: (id: string) => `/courts/${id}`,
 };
 
